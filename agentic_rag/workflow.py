@@ -77,6 +77,10 @@ def validate_grounding(report: GroundedReport, bundle: RetrievalBundle) -> None:
             "Report referenced evidence that was not retrieved: " + ", ".join(sorted(invalid))
         )
     if bundle.has_evidence:
+        if report.insufficient_evidence:
+            raise GroundingValidationError(
+                "A grounded answer cannot be marked as insufficient evidence"
+            )
         if not declared or not inline:
             raise GroundingValidationError("Grounded answers require declared and inline citations")
         if inline != declared:

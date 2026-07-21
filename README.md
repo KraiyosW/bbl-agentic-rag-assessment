@@ -90,7 +90,7 @@ different cases exercise more than happy-path keyword matching:
 | 4 | Separate policy domain plus customer-information constraint | `KB-008` |
 | 5 | Unsupported policy request | Fail closed under `Workflow Guardrail`; do not call Report Generator |
 
-![Live evaluation queries 1 to 3 showing retrieved evidence and cited answers](docs/screenshots/demo-output.png)
+![Live evaluation queries 1 and 2 showing retrieved evidence and cited answers](docs/screenshots/demo-output.png)
 
 ![Live evaluation continuation showing query 3 provenance, a grounded remote-work answer, and fail-closed behavior](docs/screenshots/demo-output-continued.png)
 

@@ -63,9 +63,17 @@ def _make_retriever(settings: Settings) -> BM25Retriever:
     )
 
 
+def render_query_heading(console: Console, index: int, query: str) -> None:
+    """Render a readable query heading with no decorative rule."""
+    if index > 1:
+        console.print()
+    console.print(f"[bold blue]Query {index}[/bold blue] · [blue]{query}[/blue]")
+
+
 def render_retrieval(console: Console, bundle: RetrievalBundle) -> None:
     if not bundle.chunks:
-        console.print(Panel("No relevant evidence found.", title="Data Retriever", style="yellow"))
+        console.print("[bold yellow]Data Retriever · No Evidence[/bold yellow]")
+        console.print(Panel("No relevant evidence found.", border_style="yellow"))
         return
 
     anchors = ", ".join(bundle.intent_anchor_terms) or "none"
@@ -93,15 +101,17 @@ def render_retrieval(console: Console, bundle: RetrievalBundle) -> None:
 def render_result(console: Console, result: WorkflowResult) -> None:
     render_retrieval(console, result.retrieval)
     insufficient_evidence = result.report.insufficient_evidence
+    border_style = "yellow" if insufficient_evidence else "green"
+    stage_label = (
+        "Workflow Guardrail · Safe Response"
+        if insufficient_evidence
+        else "Report Generator · Final Answer"
+    )
+    console.print(f"[bold {border_style}]{stage_label}[/bold {border_style}]")
     console.print(
         Panel(
             Markdown(result.report.answer_markdown),
-            title=(
-                "Workflow Guardrail · Safe Response"
-                if insufficient_evidence
-                else "Report Generator · Final Answer"
-            ),
-            border_style="yellow" if insufficient_evidence else "green",
+            border_style=border_style,
         )
     )
     sources = ", ".join(result.report.source_ids) or "none"
@@ -131,12 +141,18 @@ async def _run(args: argparse.Namespace, console: Console) -> int:
         workflow = AgenticRAGWorkflow(retriever=retriever, agents=build_agents(settings))
 
     for index, query in enumerate(queries, start=1):
-        console.rule(f"[bold blue]Query {index}: {query}")
+        render_query_heading(console, index, query)
         if args.retrieval_only:
             render_retrieval(console, retriever.search(query))
         else:
             assert workflow is not None
             render_result(console, await workflow.run(query))
+    if args.export_svg:
+        # Keep the final content row clear of Rich's terminal-wide SVG clip.
+        # Two spacer rows are required because the terminal group is vertically
+        # translated after Rich calculates the clipping rectangle.
+        console.print()
+        console.print()
     return 0
 
 

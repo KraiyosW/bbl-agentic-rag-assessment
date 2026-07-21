@@ -147,7 +147,27 @@ async def test_insufficient_flag_cannot_bypass_citations(
         runner=runner,
     )
 
-    with pytest.raises(GroundingValidationError, match="declared and inline citations"):
+    with pytest.raises(GroundingValidationError, match="cannot be marked"):
+        await workflow.run("international travel approval")
+
+
+@pytest.mark.asyncio
+async def test_grounded_answer_cannot_be_marked_as_insufficient(
+    sample_knowledge_base: Path,
+) -> None:
+    inconsistent = GroundedReport(
+        answer_markdown="Approval is required [KB-001].",
+        source_ids=["KB-001"],
+        insufficient_evidence=True,
+    )
+    runner = FakeRunner(reports=[inconsistent, inconsistent])
+    workflow = AgenticRAGWorkflow(
+        retriever=BM25Retriever(sample_knowledge_base),
+        agents=_agent_set(),
+        runner=runner,
+    )
+
+    with pytest.raises(GroundingValidationError, match="cannot be marked"):
         await workflow.run("international travel approval")
 
 

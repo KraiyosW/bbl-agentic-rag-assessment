@@ -3,7 +3,7 @@ from pathlib import Path
 
 from rich.console import Console
 
-from agentic_rag.cli import DEMO_QUERIES, main, render_result
+from agentic_rag.cli import DEMO_QUERIES, main, render_query_heading, render_result
 from agentic_rag.models import GroundedReport, RetrievalBundle, WorkflowResult
 from agentic_rag.retrieval import BM25Retriever
 
@@ -21,6 +21,16 @@ def test_demo_queries_cover_five_explainable_scenarios() -> None:
         ("KB-008",),  # separate policy domain and customer-information constraint
         (),  # unsupported question must fail closed
     ]
+
+
+def test_query_heading_does_not_overlay_text_on_rule() -> None:
+    console = Console(record=True, width=112, file=StringIO())
+
+    render_query_heading(console, 1, "What is the policy?")
+
+    rendered = console.export_text()
+    query_line = next(line for line in rendered.splitlines() if "Query 1" in line)
+    assert "─" not in query_line
 
 
 def test_fail_closed_result_is_labeled_as_workflow_guardrail() -> None:
@@ -44,6 +54,10 @@ def test_fail_closed_result_is_labeled_as_workflow_guardrail() -> None:
 
     assert "Workflow Guardrail · Safe Response" in rendered
     assert "Report Generator · Final Answer" not in rendered
+    guardrail_line = next(
+        line for line in rendered.splitlines() if "Workflow Guardrail · Safe Response" in line
+    )
+    assert "─" not in guardrail_line
 
 
 def test_retrieval_only_cli_needs_no_api_key(
