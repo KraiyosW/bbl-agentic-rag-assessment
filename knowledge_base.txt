@@ -1,0 +1,30 @@
+[Document Notice]
+This is a fictional employee-policy knowledge base created solely for an AI engineering demonstration. It does not represent Bangkok Bank or any real organization's policies.
+
+[Domestic Business Travel]
+Domestic business travel requires written approval from the employee's line manager before tickets or accommodation are booked. Employees should use approved booking channels and choose reasonable economy-class options.
+
+[International Business Travel]
+International business travel requires approval from both the employee's line manager and department head. The request must be submitted at least 14 calendar days before departure and must include the business purpose, destination, dates, and estimated cost.
+
+[International Business Travel]
+Before departure, international travelers must complete the travel-risk briefing, confirm emergency contact details, and obtain corporate travel insurance. Travel to a high-risk destination additionally requires clearance from Corporate Security.
+
+[Airfare and Accommodation]
+Economy class is required for flights under six hours. Premium economy may be requested for longer flights with department-head approval. Hotels must be selected from the approved supplier list unless no approved option is reasonably available.
+
+[Travel Expenses]
+Travel expense claims must be submitted through the expense system within 10 business days after returning. Each claim must include itemized receipts, the approved travel request, and a short business-purpose description.
+
+[Travel Expenses]
+For foreign-currency expenses, employees must record the original currency and amount. The expense system applies the company's approved exchange rate for the transaction date; card statements may be attached as supporting evidence.
+
+[Remote Work]
+Employees may work remotely up to two days per week with line-manager approval when their role and operational responsibilities permit it. Customer information must not be printed at home or discussed where unauthorized people may hear it.
+
+[Information Security]
+Confidential information must be stored only in approved systems and shared according to least-privilege access. Suspected data loss, phishing, or unauthorized access must be reported immediately to the Information Security incident channel.
+
+[Annual Leave]
+Annual leave should be requested at least five business days in advance when practical. Managers may reschedule leave when necessary to maintain critical operations, but should provide the employee with a clear operational reason.
+

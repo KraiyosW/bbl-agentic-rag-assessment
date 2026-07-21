@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bbl-agentic-rag"
+version = "1.0.0"
+description = "An explainable two-agent RAG workflow for the BBL AI Engineer programming test"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "openai-agents==0.18.3",
+  "pydantic>=2.11,<3",
+  "python-dotenv>=1.1,<2",
+  "rich>=14,<15",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.4,<10",
+  "pytest-asyncio>=1,<2",
+  "pytest-cov>=6,<8",
+  "ruff>=0.12,<1",
+]
+notebook = [
+  "ipykernel>=6.30,<8",
+  "nbclient>=0.10,<1",
+  "nbconvert>=7.16,<8",
+  "nbformat>=5.10,<6",
+]
+
+[tool.setuptools.packages.find]
+include = ["agentic_rag*"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+  "integration: requires a real LLM API credential",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["agentic_rag"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]

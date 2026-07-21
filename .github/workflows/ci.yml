@@ -1,0 +1,29 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install project
+        run: python -m pip install -e ".[dev,notebook]"
+      - name: Lint
+        run: ruff check .
+      - name: Formatting
+        run: ruff format --check .
+      - name: Unit tests
+        run: pytest --cov=agentic_rag --cov-report=term-missing
+      - name: Execute explainability notebook
+        run: >-
+          jupyter nbconvert --execute --to notebook
+          notebooks/explainable_rag_walkthrough.ipynb
+          --output /tmp/explainable_rag_walkthrough.executed.ipynb
+          --ExecutePreprocessor.timeout=120

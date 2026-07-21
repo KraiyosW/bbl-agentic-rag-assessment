@@ -1,0 +1,30 @@
+# Local credentials and machine-specific environment files
+.env*
+!.env.example
+*.pem
+*.key
+
+# Virtual environments and Python build/test artifacts
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+
+# Editors, operating systems, and local logs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Local non-submission artifacts
+/output/
